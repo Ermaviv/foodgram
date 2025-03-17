@@ -1,0 +1,39 @@
+version: '3'
+
+volumes:
+  db_sqlite:
+  static:
+  media:
+
+services:
+  db_postgres:
+    image: postgres:13.10
+    env_file: .env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+  backend:
+    depends_on:
+      - db_postgres
+    image: ermaviv/foodgram_backend
+    env_file: .env
+    volumes:
+      - static:/app/static
+      - media:/app/media
+  frontend:
+    image: ermaviv/foodgram_frontend
+    env_file: .env
+    command: cp -r /app/build/. /static/
+    volumes:
+      - static:/static
+      - media:/media
+  gateway:
+    depends_on:
+      - frontend
+      - backend
+    image: ermaviv/foodgram_gateway
+    env_file: .env
+    ports:
+      - 9000:80
+    volumes:
+      - static:/static
+      - media:/media
