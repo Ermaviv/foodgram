@@ -1,5 +1,6 @@
 frontend/node_modules
 infra/frontend/build
+backend/img
 .env
 
 # Byte-compiled / optimized / DLL files
@@ -9,6 +10,7 @@ __pycache__/
 
 # C extensions
 *.so
+*.png
 
 # Distribution / packaging
 .Python

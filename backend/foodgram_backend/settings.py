@@ -100,7 +100,15 @@ REST_FRAMEWORK = {
     ],
 }
 
-LOGIN_FIELD = 'email',
+DJOSER = {
+    "LOGIN_FIELD": "email",
+    "SERIALIZERS": {
+        'current_user': 'api.serializers.UserSerializer'
+    },
+    "PERMISSIONS": {
+        'user_list': ['rest_framework.permissions.AllowAny',],
+    }
+}
 
 LANGUAGE_CODE = 'en-us'
 

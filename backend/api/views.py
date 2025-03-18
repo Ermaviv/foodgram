@@ -7,7 +7,6 @@ from rest_framework.response import Response
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
-
 from api.models import Ingredient, Recipe, Tag, User, Subscribe
 from api.serializers import (
     TagSerializer,
@@ -40,35 +39,15 @@ class TagViewSet(ReadOnlyModelViewSet):
     serializer_class = TagSerializer
 
 
-'''
-    def update(self, request, *args, **kwargs):
-        user = get_object_or_404(User, pk=self.request.user.pk)
-        if self.request.user.is_authenticated:
-            request.data['username'] = self.request.user.username
-        serializer = self.serializer_class(user, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            user.set_password(self.request.data['new_password'])
-            # user.set_password('123456qwe,./')
-            user.save()
-            return Response(serializer.errors)
-        return Response({'message': serializer.errors})
-'''
-
-'''
-class UserViewSet(ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-    def get_object(self):
-        return get_object_or_404(User, pk=self.request.user.pk)
-'''
-
-
 class UserViewSet(DjoserViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny,]
+
+    def get_permissions(self):
+        if self.action == "me" and self.request.method == 'GET':
+            self.permission_classes = [IsAuthenticated,]
+        return super().get_permissions()
 
     @action(
         detail=False,
