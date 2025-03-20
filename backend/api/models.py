@@ -13,7 +13,7 @@ class User(AbstractUser):
         default=None
     )
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username',]
+    REQUIRED_FIELDS = ['username']
 
 
 class Tag(models.Model):
