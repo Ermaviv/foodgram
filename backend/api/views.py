@@ -45,8 +45,8 @@ class RecipeViewSet(ModelViewSet):
 
     @action(
         detail=True,
-        methods=['POST', ],
-        permission_classes=[IsAuthenticated, ],
+        methods=['POST'],
+        permission_classes=[IsAuthenticated],
         url_path='shopping_cart'
     )
     def get_recipe_to_shop_cart(self, request, **kwargs):
@@ -64,10 +64,10 @@ class RecipeViewSet(ModelViewSet):
 
     @action(
         detail=False,
-        methods=['GET',],
-        permission_classes=[IsAuthenticated,],
+        methods=['GET'],
+        permission_classes=[IsAuthenticated],
         url_path='download_shopping_cart',
-        renderer_classes=[CSVStudentDataRenderer,]
+        renderer_classes=[CSVStudentDataRenderer]
     )
     def download_shopping_cart(self, request):
         content = []
@@ -102,7 +102,7 @@ class UserViewSet(DjoserViewSet):
     serializer_class = UserSerializer
     paginate_by = RECIPES_ON_PAGE
     pagination_class = LimitOffsetPagination
-    permission_classes = [AllowAny,]
+    permission_classes = [AllowAny]
 
     def get_queryset(self):
         return super().get_queryset().annotate(
@@ -111,13 +111,13 @@ class UserViewSet(DjoserViewSet):
 
     def get_permissions(self):
         if self.action == "me" and self.request.method == 'GET':
-            self.permission_classes = [IsAuthenticated,]
+            self.permission_classes = [IsAuthenticated]
         return super().get_permissions()
 
     @action(
         detail=False,
         methods=['PUT', 'DELETE'],
-        permission_classes=[IsAuthenticated,],
+        permission_classes=[IsAuthenticated],
         url_path='me/avatar'
     )
     def set_delete_avatar(self, request):
@@ -142,8 +142,8 @@ class UserViewSet(DjoserViewSet):
 
     @action(
         detail=False,
-        methods=['GET',],
-        permission_classes=[IsAuthenticated, ],
+        methods=['GET'],
+        permission_classes=[IsAuthenticated],
         url_path='subscriptions'
     )
     def get_list_subscription(self, request):
@@ -165,7 +165,7 @@ class UserViewSet(DjoserViewSet):
         detail=False,
         methods=['POST', 'DELETE'],
         permission_classes=[IsAuthenticated, ],
-        url_path='(?P<sub_id>\d+)/subscribe'
+        url_path=r'(?P<sub_id>\d+)/subscribe'
     )
     def add_delete_subscription(self, request, **kwargs):
         user = get_object_or_404(User, pk=self.request.user.pk)
@@ -202,8 +202,10 @@ class UserViewSet(DjoserViewSet):
             return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+'''
 class IngredientViewSet(DjoserViewSet):
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
-    permission_classes = [AllowAny,]
+    permission_classes = [AllowAny]
     search_fields = ('name',)
+'''

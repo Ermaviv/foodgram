@@ -3,7 +3,7 @@ import io
 
 from rest_framework import renderers
 
-RECIPE_DATA_FILE_HEADERS = ['name',]
+RECIPE_DATA_FILE_HEADERS = ['name']
 
 
 class CSVStudentDataRenderer(renderers.BaseRenderer):
