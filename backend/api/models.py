@@ -36,17 +36,17 @@ class Tag(models.Model):
 
 
 class Ingredient(models.Model):
-    title = models.CharField(
+    name = models.CharField(
         max_length=64,
         verbose_name='Название ингредиента',
     )
-    unit = models.CharField(
+    measurement_unit = models.CharField(
         max_length=64,
         verbose_name='Единица измерения',
     )
 
     def _str_(self):
-        return self.title
+        return self.name
 
     class Meta:
         verbose_name = 'ингредиент'
@@ -129,3 +129,18 @@ class Subscribe(models.Model):
                 name='unique_draft_user'
             )
         ]
+
+
+class ShopCart(models.Model):
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+    staff = models.ForeignKey(
+        Ingredient,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )

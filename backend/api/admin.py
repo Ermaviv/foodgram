@@ -22,18 +22,11 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     list_display = (
-        'title',
-        'unit',
+        'name',
+        'measurement_unit',
     )
-    search_fields = ('title',)
-    list_display_links = ('title',)
-
-
-'''
-для модели рецептов:
-- в списке рецептов вывести название и имя автора рецепта;
-- на странице рецепта вывести общее число добавлений этого рецепта в избранное.
-'''
+    search_fields = ('name',)
+    list_display_links = ('name',)
 
 
 @admin.register(Recipe)

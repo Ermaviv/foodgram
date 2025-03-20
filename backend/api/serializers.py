@@ -1,9 +1,9 @@
 import base64
-from rest_framework import serializers
+
 from django.contrib.auth.validators import UnicodeUsernameValidator
-from api.models import Ingredient, Tag, Recipe, User, Subscribe
 from django.core.files.base import ContentFile
-from django.shortcuts import get_object_or_404
+from rest_framework import serializers
+from api.models import Ingredient, Tag, Recipe, User
 
 
 class Base64ImageField(serializers.ImageField):
@@ -38,16 +38,26 @@ class UserSerializer(serializers.ModelSerializer):
         required=False,
         allow_null=True
     )
+    is_in_shopping_cart = serializers.BooleanField(
+        default=False
+    )
 
     class Meta:
         model = User
-        fields = ('email', 'id', 'username', 'first_name',
-                  'last_name', 'is_subscribed', 'avatar')
+        fields = ('email', 'id', 'username',
+                  'first_name', 'last_name', 'is_subscribed',
+                  'is_in_shopping_cart', 'avatar'
+                  )
 
 
 class RecipeSerializer(serializers.ModelSerializer):
     tags = TagSerializer(read_only=True)
-    author = UserSerializer(read_only=True)
+    author = UserSerializer(
+        read_only=True,
+    )
+    count = serializers.IntegerField(
+        default=0
+    )
 
     class Meta:
         model = Recipe
